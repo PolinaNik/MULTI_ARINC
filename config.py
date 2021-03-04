@@ -1,22 +1,22 @@
 """Конфигурационный файл"""
 
 #Адрес папки со всеми программными файлами
-program_files = 'C:/Users/Полина/Desktop/MULTI_ARINC/MULTI_ARINC/README.txt'
+program_files = 'C:/Users/Полина/Desktop/MULTI_ARINC/program_files/'
 
-#Адресс к папке с файлами для парсинга
-arinc_files = 'C:/Users/Полина/Desktop/MULTI_ARINC/Файлы_для_парсинга/'
+#Адресс папки с файлами для парсинга
+arinc_files = 'C:/Users/Полина/Desktop/MULTI_ARINC/Файлы для парсинга/'
 
 #Адрес папки для СИНТЕЗА
-sintez_files = 'C:/Users/Полина/Desktop/MULTI_ARINC/sintez/'
+sintez_files = 'C:/Users/Полина/Desktop/MULTI_ARINC/СИНТЕЗ/'
 
 #Адрес папки для КОРИНФ
-korinf_files =
+korinf_files = 'C:/Users/Полина/Desktop/MULTI_ARINC/КОРИНФ/'
 
 #Адрес папки для ОРЛ-А
-orl_files =
+orl_files = 'C:/Users/Полина/Desktop/MULTI_ARINC/ОРЛ_А/'
 
 #Адрес папки с шаблонами
-sample_files = 'C:/Users/Полина/Desktop/MULTI_ARINC/sintez/origin_files/ROUTES_ZON_DOP.SLD'
+sample_files = 'C:/Users/Полина/Desktop/MULTI_ARINC/program_files/samples/'
 
 import math
 from shapely.geometry import Point
@@ -29,7 +29,7 @@ import json
 import geog
 
 #################################################################################################################
-"""Настройки для разбора картографии для СИНТЕЗА"""
+"""Настройки разбора картографии для СИНТЕЗА"""
 
 #Минимальное расстояние между точками, на котором ставятся десигнаторы (в метрах)
 d = 20000
@@ -225,7 +225,7 @@ pointlist = [ROMES, ROGOR, KONUD, RODOK, TURAN, LANSA,
 poly_sintez = geometry.Polygon([[p.x, p.y] for p in pointlist])
 
 ###################################################################################################
-"""Настройки для разбора картографии для локатора"""
+"""Настройки разбора картографии для локатора"""
 
 #Выбор радиуса окружности полигона в метрах
 radius = 500000
@@ -242,7 +242,7 @@ polygon_radar = geog.propagate(p, angles, radius)
 poly_radar = geometry.Polygon(polygon_radar)
 
 ##############################################################################################################################
-"""Настройки для разбора картографии для КОРИНФ"""
+"""Настройки разбора картографии для КОРИНФ"""
 #Создание полигона с зоной ответственности для КОРИНФ
 radius_kor = 800000
 #Выбор радиуса окружности полигона в метрах
