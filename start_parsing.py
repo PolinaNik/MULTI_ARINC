@@ -5,13 +5,6 @@ from tkinter import messagebox
 from tkinter import scrolledtext
 import config
 
-if not os.path.exists(directory):
-    os.makedirs(directory)
-
-
-
-
-
 root = Tk()
 
 root.title("Multifunctional ARINC Parsing")
