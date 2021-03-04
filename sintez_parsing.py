@@ -1,6 +1,7 @@
 """Скрипт парсинга для СИНТЕЗА"""
 
 import re
+import os
 import math
 import logging
 from itertools import groupby
@@ -18,16 +19,16 @@ import config
 import operator
 
 # Пишем в лог
-logging.basicConfig(format='%(asctime)s %(message)s', filename='%s/arinc.log' % config.address1,
+logging.basicConfig(format='%(asctime)s %(message)s', filename='%s/arinc.log' % config.sintez_files,
                     filemode='a')
 
 # Создаем окно приложения
 root = Tk()
 root.withdraw()
 root.title("Парсинг для SINTEZ")
-root.filename1 = filedialog.askopenfilename(initialdir="%s" % config.address0, title="ВЫБЕРИТЕ ARINC для международных трасс")
-root.filename2 = filedialog.askopenfilename(initialdir="%s" % config.address0, title="ВЫБЕРИТЕ ARINC для МВЛьных трасс трасс")
-root.filename3 = filedialog.askopenfilename(initialdir="%s" % config.address0, title="ВЫБЕРИТЕ mysqldump")
+root.filename1 = filedialog.askopenfilename(initialdir="%s" % config.arinc_files, title="ВЫБЕРИТЕ ARINC для международных трасс")
+root.filename2 = filedialog.askopenfilename(initialdir="%s" % config.arinc_files, title="ВЫБЕРИТЕ ARINC для МВЛьных трасс трасс")
+root.filename3 = filedialog.askopenfilename(initialdir="%s" % config.arinc_files, title="ВЫБЕРИТЕ mysqldump")
 begin_time = datetime.datetime.today()
 
 pat = re.compile(r'(\d+)+?')
@@ -107,7 +108,7 @@ arinc = list(modules.data(inside_points))
 output = list(modules.listTosring(arinc_duplicates))
 output = list(modules.unique(output))
 
-with open('%s/4.duplicates.txt' % config.address5, 'w') as file2:
+with open('%s/4.duplicates.txt' % config.sintez_files, 'w') as file2:
     for item in output:
         file2.write("%s\n" % item)
 
@@ -225,9 +226,12 @@ query_01B_delete_rus_points = "DELETE FROM `point_mag` WHERE PN_NAME IN (" + rus
 query_01C_delete_eng_old_points = "DELETE FROM `point` WHERE PN_NAME IN (" + eng_not_common_points+");"
 query_01D_delete_eng_old_points = "DELETE FROM `point_mag` WHERE PN_NAME IN (" + eng_not_common_points+");"
 
-
 query_01_delete_points = query_01A_delete_rus_points + query_01C_delete_eng_old_points + query_01B_delete_rus_points + query_01D_delete_eng_old_points
-with open('%s/01_delete_points.sql' % config.address1, 'w') as file1:
+
+if not os.path.exists('%s1.Запросы' %config.sintez_files):
+    os.makedirs('%s1.Запросы' %config.sintez_files)
+
+with open('%s1.Запросы/01_delete_points.sql' % config.sintez_files, 'w') as file1:
     file1.write(query_01_delete_points)
 
 
@@ -359,7 +363,7 @@ def update_query(lst):
 
 updated_points = list(update_query(update_points))
 
-with open('%s/02_update_points.sql' % config.address1, 'w') as file1:
+with open('%s1.Запросы/02_update_points.sql' % config.sintez_files, 'w') as file1:
     for item in updated_points:
         file1.write("%s\n" % item)
 
@@ -389,10 +393,10 @@ points_add_list = ','.join(points_add_list)
 query_03A_add_points= "INSERT IGNORE INTO `point` (`PN_NAME`, `PN_LAT`, `PN_LON`, `PN_X`, `PN_Y`, `PN_FNAME`, `PN_NUM`, `P_RP`, `P_ACT`, `P_STATE`, `P_FIR`, `P_TMA`, `P_AOR`, `P_SECTOR`, `P_ZONE`, `PN_CAPTION`) VALUES "+points_add_list+';'
 query_03B_add_points = "INSERT IGNORE INTO `point_mag` (`PN_NAME`, `PN_LAT`, `PN_LON`, `PN_X`, `PN_Y`, `PN_FNAME`, `PN_NUM`, `P_RP`, `P_ACT`, `P_STATE`, `P_FIR`, `P_TMA`, `P_AOR`, `P_SECTOR`, `P_ZONE`, `PN_CAPTION`) VALUES "+points_add_list+';'
 
-with open('%s/03_add_points.sql' % config.address1, 'w') as file1:
+with open('%s1.Запросы/03_add_points.sql' % config.sintez_files, 'w') as file1:
     file1.write(' \n'+query_03A_add_points)
 
-with open('%s/03_add_points_mag.sql' % config.address1, 'w') as file1:
+with open('%s1.Запросы//03_add_points_mag.sql' % config.sintez_files, 'w') as file1:
     file1.write(' \n'+query_03B_add_points)
 
 # ______________________АНАЛИЗ ТРАСС_______________________________________
@@ -516,10 +520,10 @@ points_add_list_trass = ','.join(points_add_list_trass)
 query_03A_add_points_trass= "INSERT IGNORE INTO `point` (`PN_NAME`, `PN_LAT`, `PN_LON`, `PN_X`, `PN_Y`, `PN_FNAME`, `PN_NUM`, `P_RP`, `P_ACT`, `P_STATE`, `P_FIR`, `P_TMA`, `P_AOR`, `P_SECTOR`, `P_ZONE`, `PN_CAPTION`) VALUES "+points_add_list_trass+';'
 query_03B_add_points_trass = "INSERT IGNORE INTO `point_mag` (`PN_NAME`, `PN_LAT`, `PN_LON`, `PN_X`, `PN_Y`, `PN_FNAME`, `PN_NUM`, `P_RP`, `P_ACT`, `P_STATE`, `P_FIR`, `P_TMA`, `P_AOR`, `P_SECTOR`, `P_ZONE`, `PN_CAPTION`) VALUES "+points_add_list_trass+';'
 
-with open('%s/03_add_points_only.sql' % config.address1, 'w') as file1:
+with open('%s1.Запросы/03_add_points_only.sql' % config.sintez_files, 'w') as file1:
     file1.write(' \n'+query_03A_add_points_trass)
 
-with open('%s/03_add_points_mag_only.sql' % config.address1, 'w') as file1:
+with open('%s1.Запросы/03_add_points_mag_only.sql' % config.sintez_files, 'w') as file1:
     file1.write(' \n'+query_03B_add_points_trass)
 
 # Пересчитываем координаты точек в радианы
@@ -591,22 +595,25 @@ international_names = list(modules.names(international))
 new_routes_int = sorted(list(set(names_routes_int) - set(international_names)))
 new_routes_mvl = sorted(list(set(names_routes_mvl) - set(rus_names)))
 
-with open('%s/new_routes_international.txt' % config.address4, 'w') as output:
+if not os.path.exists('%s3.Таблицы/' %config.sintez_files):
+    os.makedirs('%s3.Таблицы/' %config.sintez_files)
+
+with open('%s3.Таблицы/new_routes_international.txt' % config.sintez_files, 'w') as output:
     for item in new_routes_int:
         output.write("%s\n\n" % item)
 
-with open('%s/new_routes_mvl.txt' % config.address4, 'w') as output:
+with open('%s3.Таблицы/new_routes_mvl.txt' % config.sintez_files, 'w') as output:
     for item in new_routes_mvl:
         output.write("%s\n\n" % item)
 
 del_routes_int = sorted(list(set(international_names) - set(names_routes_int)))
 del_routes_mvl = sorted(list(set(rus_names) - set(names_routes_mvl)))
 
-with open('%s/old_routes_international.txt' % config.address4, 'w') as output:
+with open('%s3.Таблицы/old_routes_international.txt' % config.sintez_files, 'w') as output:
     for item in del_routes_int:
         output.write("%s\n\n" % item)
 
-with open('%s/old_routes_mvl.txt' % config.address4, 'w') as output:
+with open('%s3.Таблицы/old_routes_mvl.txt' % config.sintez_files, 'w') as output:
     for item in del_routes_mvl:
         output.write("%s\n\n" % item)
 
@@ -653,7 +660,7 @@ def query_04_add_trass(lst):
 query_04 = ','.join(list(query_04_add_trass(add_routes)))
 query_04 = "INSERT IGNORE INTO _trass (T_NAME, T_DIR, T_DEST1, T_DEST2, T_DESCR) VALUES "+query_04+';'
 
-with open('%s/04_add_trass.sql' % config.address1, 'w') as file1:
+with open('%s1.Запросы/04_add_trass.sql' % config.sintez_files, 'w') as file1:
     file1.write(" \n"+query_04)
 
 # ________________MAH. Получение разрешенных высот из БД и соотношение их с трассами и точками из документа ARINC______________________________
@@ -765,10 +772,10 @@ query_05_limited = ','.join(query_05_limited)
 query_05 = "INSERT IGNORE INTO _trass_point (T_NAME, TP_NUM, PN_NAME, TP_ID, T_DESIGNATION, T_LENGTH, T_WIDTH, T_FL, T_FLAGS) VALUES "+query_05+';'
 query_05_limited = "#INSERT IGNORE INTO _trass_point (T_NAME, TP_NUM, PN_NAME, TP_ID, T_DESIGNATION, T_LENGTH, T_WIDTH, T_FL, T_FLAGS) VALUES "+query_05_limited+';'
 
-with open('%s/05_add_trass_point.sql' % config.address1, 'w') as file1:
+with open('%s1.Запросы/05_add_trass_point.sql' % config.sintez_files, 'w') as file1:
     file1.write(" \n"+query_05)
 
-with open('%s/05_add_trass_point_limited.sql' % config.address1, 'w') as file1:
+with open('%s1.Запросы/05_add_trass_point_limited.sql' % config.sintez_files, 'w') as file1:
     file1.write(" \n"+query_05_limited)
 
 #____________________КАРТОГРАФИЯ________________________________
@@ -914,15 +921,18 @@ po2 = points_list2 + points_list2_1 + points_list_2_2
 po2 = list(modules.unique(po2))
 points_list2 = author + first2 + second + po2
 
-with open('%s/POINTS_W_AUTO.SLD' % config.address2, 'w') as output2:
+if not os.path.exists('%s2.Картография/' %config.sintez_files):
+    os.makedirs('%s2.Картография/' %config.sintez_files)
+
+with open('%s2.Картография/POINTS_W_AUTO.SLD' % config.sintez_files, 'w') as output2:
     for item in points_list:
         output2.write("%s\n" % item)
 
-with open('%s/POINTS_W_ONLY_AUTO.SLD' % config.address2, 'w') as output2:
+with open('%s2.Картография/POINTS_W_ONLY_AUTO.SLD' % config.sintez_files, 'w') as output2:
     for item in points_list_only:
         output2.write("%s\n" % item)
 
-with open('%s/HB_LOC_P_AUTO.SLD' % config.address2, 'w') as output2:
+with open('%s2.Картография/HB_LOC_P_AUTO.SLD' % config.sintez_files, 'w') as output2:
     for item in points_list2:
         output2.write("%s\n" % item)
 
@@ -1114,23 +1124,23 @@ first_mvl = ['N: "routes 11" * routes - Habarovsk Zonal Center *']
 add_routes_int_ = author + first_int + second + short_int_new + list_routes_int_new
 add_routes_mvl_ = author + first_mvl + second + short_mvl_new + list_routes_mvl_new
 
-with open('%s/ROUTES_W_AUTO.SLD' % config.address2, 'w') as output3:
+with open('%s2.Картография/ROUTES_W_AUTO.SLD' % config.sintez_files, 'w') as output3:
     for item in add_routes_osn:
         output3.write("%s\n" % item)
 
-with open('%s/ROUT_S_W_AUTO.SLD' % config.address2, 'w') as output3:
+with open('%s2.Картография/ROUT_S_W_AUTO.SLD' % config.sintez_files, 'w') as output3:
     for item in add_routes_sw:
         output3.write("%s\n" % item)
 
-with open('%s/HB_LOC_R_AUTO.SLD' % config.address2, 'w') as output3:
+with open('%s2.Картография/HB_LOC_R_AUTO.SLD' % config.sintez_files, 'w') as output3:
     for item in add_routes2:
         output3.write("%s\n" % item)
 
-with open('%s/NEW_ROUTES_INT_AUTO.SLD' % config.address2, 'w') as output3:
+with open('%s2.Картография/NEW_ROUTES_INT_AUTO.SLD' % config.sintez_files, 'w') as output3:
     for item in add_routes_int_:
         output3.write("%s\n" % item)
 
-with open('%s/NEW_ROUTES_MVL_AUTO.SLD' % config.address2, 'w') as output3:
+with open('%s2.Картография/NEW_ROUTES_MVL_AUTO.SLD' % config.sintez_files, 'w') as output3:
     for item in add_routes_mvl_:
         output3.write("%s\n" % item)
 
@@ -1624,27 +1634,27 @@ for_desw_mvl_new = author + first_mvl_new + desw_mvl_new + desw_mvl_new2
 for_desw_sloy = author + first_sloy+ desw_sloy + desw_sloy
 for_desw_mvl2 = author + first_mvl2+ desw_mvl + desw_mvl2
 
-with open('%s/DESW_AUTO.SLD' % config.address2, 'w') as output3:
+with open('%s2.Картография/DESW_AUTO.SLD' % config.sintez_files, 'w') as output3:
     for item in for_desw_int:
         output3.write("%s\n" % item)
 
-with open('%s/HB_LOC_D_AUTO.SLD' % config.address2, 'w') as output3:
+with open('%s2.Картография/HB_LOC_D_AUTO.SLD' % config.sintez_files, 'w') as output3:
     for item in for_desw_mvl2:
         output3.write("%s\n" % item)
 
-with open('%s/HABMVLD0_AUTO.SLD' % config.address2, 'w') as output3:
+with open('%s2.Картография/HABMVLD0_AUTO.SLD' % config.sintez_files, 'w') as output3:
     for item in for_desw_mvl:
         output3.write("%s\n" % item)
 
-with open('%s/HABMVLD1_AUTO.SLD' % config.address2, 'w') as output3:
+with open('%s2.Картография/HABMVLD1_AUTO.SLD' % config.sintez_files, 'w') as output3:
     for item in for_desw_sloy:
         output3.write("%s\n" % item)
 
-with open('%s/NEW_DESW_INT_AUTO.SLD' % config.address2, 'w') as output3:
+with open('%s2.Картография/NEW_DESW_INT_AUTO.SLD' % config.sintez_files, 'w') as output3:
     for item in for_desw_int_new:
         output3.write("%s\n" % item)
 
-with open('%s/NEW_DESW_MVL_AUTO.SLD' % config.address2, 'w') as output3:
+with open('%s2.Картография/NEW_DESW_MVL_AUTO.SLD' % config.sintez_files, 'w') as output3:
     for item in for_desw_mvl_new:
         output3.write("%s\n" % item)
 
@@ -1808,16 +1818,16 @@ first2 = ['N: "designators 17" * mvl designators - Habarovsk *']
 desw_FL_int = author + first + int_FL_desw + int_FL_desw2
 desw_FL_mvl = author + first2 + mvl_FL_desw + mvl_FL_desw2
 
-with open('%s/HEIGHT_AUTO.SLD' % config.address2, 'w') as output3:
+with open('%s2.Картография/HEIGHT_AUTO.SLD' % config.sintez_files, 'w') as output3:
     for item in desw_FL_int:
         output3.write("%s\n" % item)
 
-with open('%s/HEIGHT_MVL_AUTO.SLD' % config.address2, 'w') as output3:
+with open('%s2.Картография/HEIGHT_MVL_AUTO.SLD' % config.sintez_files, 'w') as output3:
     for item in desw_FL_mvl:
         output3.write("%s\n" % item)
 
 # Находим зональные трассы
-zon = open('%s' % config.address3, 'r', encoding='koi8-r')
+zon = open('%ssamples/ROUTES_ZON_DOP.SLD' % config.program_files, 'r', encoding='koi8-r')
 zon = zon.readlines()
 
 zones = []
@@ -1882,7 +1892,7 @@ first3 = ['N: "designators 19" * zon designators - Habarovsk *']
 
 for_desw3_zon = author + first3 + for_desw_zon1 + for_desw_zon2
 
-with open('%s/HEIGHT_ZON_AUTO.SLD' % config.address2, 'w') as output3:
+with open('%s2.Картография/HEIGHT_ZON_AUTO.SLD' % config.sintez_files, 'w') as output3:
     for item in for_desw3_zon:
         output3.write("%s\n" % item)
 
@@ -1930,7 +1940,7 @@ for i, l in enumerate(all_routes):
         for j, col in enumerate(l):
             sheet.write(i, j, col, style)
 
-filename.save('%s/new_points_in_routes.xls' % config.address4)
+filename.save('%s3.Таблицы/new_points_in_routes.xls' % config.sintez_files)
 
 t = []
 l = []
@@ -1952,7 +1962,7 @@ for i, l in enumerate(new_points):
     for j, col in enumerate(l):
         sheet.write(i, j, col)
 
-filename.save('%s/new_points.xls' % config.address4)
+filename.save('%s3.Таблицы/new_points.xls' % config.sintez_files)
 
 print('Таблицы Excel с отчетом о новых точках и трассах созданы')
 
@@ -1971,7 +1981,7 @@ start_point2 = ['T: <R2> N46120000E131100000 /%s /' % sticker]
 
 layer = author + first1 + second + new_layer + start_point + start_point2
 
-with open('%s/NEW_LAYER_AUTO.SLD' % config.address2, 'w') as output:
+with open('%s2.Картография/NEW_LAYER_AUTO.SLD' % config.sintez_files, 'w') as output:
     for item in layer:
         output.write("%s\n" % item)
 
@@ -2179,11 +2189,11 @@ second = ['L: <BROWN,ff00,full>']
 del_add_routes_int = author + del_first_int + second + short_int_del + list_routes_int_del
 del_add_routes_mvl = author + del_first_mvl + second + short_mvl_del + list_routes_mvl_del
 
-with open('%s/DEL_ROUTES_INT_AUTO.SLD' % config.address2, 'w') as output3:
+with open('%s2.Картография/DEL_ROUTES_INT_AUTO.SLD' % config.sintez_files, 'w') as output3:
     for item in del_add_routes_int:
         output3.write("%s\n" % item)
 
-with open('%s/DEL_ROUTES_MVL_AUTO.SLD' % config.address2, 'w') as output3:
+with open('%s2.Картография/DEL_ROUTES_MVL_AUTO.SLD' % config.sintez_files, 'w') as output3:
     for item in del_add_routes_mvl:
         output3.write("%s\n" % item)
 
@@ -2436,11 +2446,11 @@ first_del_mvl = ['N: "designators 23" * route designators - Habarovsk *']
 del_desw_int = author + first_del_int + del_desw_int
 del_desw_mvl = author + first_del_mvl + del_desw_mvl + del_desw_mvl2
 
-with open('%s/DEL_DESW_INT_AUTO.SLD' % config.address2, 'w', encoding='utf-8') as output3:
+with open('%s2.Картография/DEL_DESW_INT_AUTO.SLD' % config.sintez_files, 'w', encoding='utf-8') as output3:
     for item in del_desw_int:
         output3.write("%s\n" % item)
 
-with open('%s/DEL_DESW_MVL_AUTO.SLD' % config.address2, 'w', encoding='utf-8') as output3:
+with open('%s2.Картография/DEL_DESW_MVL_AUTO.SLD' % config.sintez_files, 'w', encoding='utf-8') as output3:
     for item in del_desw_mvl:
         output3.write("%s\n" % item)
 
