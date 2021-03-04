@@ -2,23 +2,15 @@
 
 import re
 import math
-import pymysql
-import logging
-from collections import defaultdict
 from itertools import groupby
 from itertools import chain
 from tkinter import filedialog
 from tkinter import *
-import tkinter.scrolledtext as scrolledtext
-from operator import itemgetter
-import transliterate
-import xlwt
 import datetime
-import copy
 
 import modules
 import config
-import operator
+
 
 # Создаем окно приложения
 root = Tk()

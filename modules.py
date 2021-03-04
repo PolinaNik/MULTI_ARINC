@@ -3,9 +3,7 @@
 import re
 import math
 from shapely.geometry import Point
-from shapely import geometry
 from collections import defaultdict
-import itertools
 from itertools import groupby
 from itertools import chain
 import config

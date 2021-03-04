@@ -15,17 +15,11 @@ korinf_files = 'C:/Users/Полина/Desktop/MULTI_ARINC/КОРИНФ/'
 #Адрес папки для ОРЛ-А
 orl_files = 'C:/Users/Полина/Desktop/MULTI_ARINC/ОРЛ_А/'
 
-#Адрес папки с шаблонами
-sample_files = 'C:/Users/Полина/Desktop/MULTI_ARINC/program_files/samples/'
-
 import math
 from shapely.geometry import Point
 from shapely import geometry
-from functools import partial
-import pyproj
-from shapely.ops import transform
 import numpy as np
-import json
+
 import geog
 
 #################################################################################################################
