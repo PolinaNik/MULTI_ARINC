@@ -1,7 +1,6 @@
 """Скрипт парсинга для ОРЛ-А"""
 
 import re
-import math
 from itertools import groupby
 from itertools import chain
 from tkinter import filedialog
@@ -17,10 +16,10 @@ root = Tk()
 root.withdraw()
 
 root.title("Парсинг для ОРЛ-А")
-root.filename = filedialog.askopenfilename(initialdir="/", title="ВЫБЕРИТЕ ARINC для международных трасс")
+root.filename = filedialog.askopenfilename(initialdir="%s" % config.arinc_files, title="ВЫБЕРИТЕ ARINC для международных трасс")
 begin_time = datetime.datetime.today()
 
-print('_____НАЧАЛО_____Разбор файла ARINC %s' % root.filename1)
+print('_____НАЧАЛО_____Разбор файла ARINC %s' % root.filename)
 
 pat = re.compile(r'(\d+)+?')
 version = pat.search(root.filename).group()
@@ -91,7 +90,7 @@ def counter_of_points(routes):
 more2 = list(counter_of_points(more2))
 
 lenght1 = len(int_)
-lenght2 = len(more2)
+lenght2 = len(filtred_routes)
 print('Найдено %s трасс в документе ARINC, только %s находятся в зоне ответсвенности' % (lenght1, lenght2))
 
 
@@ -137,19 +136,19 @@ for i in range(len(routes_add)):
     new = ''.join(line)
     test.append(new)
 
-sample = config.sample
+sample = open('%ssamples/sample_radar.mp' %config.program_files, 'r')
 sample = sample.readlines()
 
 now = datetime.datetime.now()
 now = now.strftime("%d.%m.%Y")
 filename = 'map_'+now+'.mp'
 
-with open('%s%s' % (config.locator_map, filename), 'w', encoding="cp1251") as r:
+with open('%s%s' % (config.orl_files, filename), 'w', encoding="cp1251") as r:
     for item in sample:
         r.write('%s' %item)
 
 
-with open('%s%s' % (config.locator_map, filename), 'a+', encoding='cp1251') as r:
+with open('%s%s' % (config.orl_files, filename), 'a+', encoding='cp1251') as r:
     for item in test:
         r.write('%s\n' %item)
 
@@ -171,7 +170,7 @@ for i in range(len(points_add)):
     new = ''.join(line)
     test.append(new)
 
-with open('%s%s' % (config.locator_map, filename), 'a+', encoding='cp1251') as r:
+with open('%s%s' % (config.orl_files, filename), 'a+', encoding='cp1251') as r:
     for item in test:
         r.write('%s\n' %item)
 
