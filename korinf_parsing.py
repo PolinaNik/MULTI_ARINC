@@ -16,10 +16,10 @@ import config
 root = Tk()
 root.withdraw()
 root.title("Парсинг для КОРИНФ на АРМах ЗКП")
-root.filename = filedialog.askopenfilename(initialdir="/", title="ВЫБЕРИТЕ ARINC для международных трасс")
+root.filename = filedialog.askopenfilename(initialdir="%s" % config.arinc_files, title="ВЫБЕРИТЕ ARINC для международных трасс")
 begin_time = datetime.datetime.today()
 
-print('_____НАЧАЛО_____Разбор файла ARINC %s' % root.filename1)
+print('_____НАЧАЛО_____Разбор файла ARINC %s' % root.filename)
 
 pat = re.compile(r'(\d+)+?')
 version = pat.search(root.filename).group()
@@ -270,57 +270,57 @@ trass_all = list(write_trass(pairs))
 
 trass_info = '0 Трассы\nЛиний 227; ПОДов 0; дуг 0; окружностей 0\nЛинии(индекс 2): всего 227\nID(2) начало конец тип цвет\n'
 
-RZ_info = open('%ssample_RZ.txt' %config.sample_korinf, 'r', encoding='utf-8')
+RZ_info = open('%ssamples/sample_RZ.txt' %config.program_files, 'r', encoding='utf-8')
 RZ_info = RZ_info.readlines()
 
-with open('%sexport.all' %config.korinf_map, 'w', encoding='cp1251') as one:
+with open('%sexport.all' %config.korinf_files, 'w', encoding='cp1251') as one:
     for i in RZ_info:
         one.write(i)
 
 
-with open('%sexport.all' %config.korinf_map, 'a+', encoding='cp1251') as one:
+with open('%sexport.all' %config.korinf_files, 'a+', encoding='cp1251') as one:
     one.write(trass_info)
 
-with open('%sexport.all' % config.korinf_map, 'a+', encoding='cp1251') as one:
+with open('%sexport.all' % config.korinf_files, 'a+', encoding='cp1251') as one:
     for i in trass_all:
         one.write('%s\n' %i)
 
 coridor_info1 = '0 Коридоры\nЛиний 1275; ПОДов 0; дуг 0; окружностей 0\nЛинии(индекс 2): всего 1275\nID(2) начало конец тип цвет\n'
 
-with open('%sexport.all' %config.korinf_map, 'a+', encoding='cp1251') as one:
+with open('%sexport.all' %config.korinf_files, 'a+', encoding='cp1251') as one:
     one.write(coridor_info1)
 
-with open('%sexport.all' % config.korinf_map, 'a+', encoding='cp1251') as one:
+with open('%sexport.all' % config.korinf_files, 'a+', encoding='cp1251') as one:
     for i in coridor_all:
         one.write('%s\n' %i)
 
 polygon_info = '0 Коридоры заштрихованные\nЛиний 0; ПОДов 0; дуг 0; окружностей 0\n'
 
-with open('%sexport.all' %config.korinf_map, 'a+', encoding='cp1251') as one:
+with open('%sexport.all' %config.korinf_files, 'a+', encoding='cp1251') as one:
     one.write(polygon_info)
 
-with open('%sexport.all' % config.korinf_map, 'a+', encoding='cp1251') as one:
+with open('%sexport.all' % config.korinf_files, 'a+', encoding='cp1251') as one:
     for i in polygon_all:
         one.write('%s\n' %i)
 
-aero_info = open('%ssample_aero.txt' %config.sample_korinf, 'r')
+aero_info = open('%ssamples/sample_aero.txt' %config.program_files, 'r')
 aero_info = aero_info.readlines()
 
-with open('%sexport.all' % config.korinf_map, 'a+', encoding='cp1251') as one:
+with open('%sexport.all' % config.korinf_files, 'a+', encoding='cp1251') as one:
     for i in aero_info:
         one.write(i)
 
-VC_info = open('%ssample_VC.txt' %config.sample_korinf, 'r')
+VC_info = open('%ssamples/sample_VC.txt' %config.program_files, 'r')
 VC_info = VC_info.readlines()
 
-with open('%sexport.all' % config.korinf_map, 'a+', encoding='cp1251') as one:
+with open('%sexport.all' % config.korinf_files, 'a+', encoding='cp1251') as one:
     for i in VC_info:
         one.write(i)
 
-routes_info = open('%ssample_routes.txt' %config.sample_korinf, 'r')
+routes_info = open('%ssamples/sample_routes.txt' %config.program_files, 'r')
 routes_info = routes_info.readlines()
 
-with open('%sexport.all' % config.korinf_map, 'a+', encoding='cp1251') as one:
+with open('%sexport.all' % config.program_files, 'a+', encoding='cp1251') as one:
     for i in routes_info:
         one.write(i)
 
@@ -379,10 +379,10 @@ pod_points_list2 = list(add_pod_points2(inside_points))
 # pdz_points_list = list(add_pod_points(pdz_points))
 # pdz_points_list2 = list(add_pod_points2(pdz_points))
 
-with open('%sexport.all' %config.korinf_map, 'a+', encoding='cp1251') as one:
+with open('%sexport.all' %config.korinf_files, 'a+', encoding='cp1251') as one:
     one.write(pod_info)
 
-with open('%sexport.all' %config.korinf_map, 'a+', encoding='cp1251') as one:
+with open('%sexport.all' %config.korinf_files, 'a+', encoding='cp1251') as one:
     for i in pod_points_list:
         one.write('%s\n' %i)
 
@@ -390,10 +390,10 @@ with open('%sexport.all' %config.korinf_map, 'a+', encoding='cp1251') as one:
 #     for i in pdz_points_list:
 #         one.write('%s\n' %i)
 
-with open('%sexport.all' %config.korinf_map, 'a+', encoding='cp1251') as one:
+with open('%sexport.all' %config.korinf_files, 'a+', encoding='cp1251') as one:
     one.write(pod_info2)
 
-with open('%sexport.all' %config.korinf_map, 'a+', encoding='cp1251') as one:
+with open('%sexport.all' %config.korinf_files, 'a+', encoding='cp1251') as one:
     for i in pod_points_list2:
         one.write('%s\n' %i)
 
@@ -401,14 +401,14 @@ with open('%sexport.all' %config.korinf_map, 'a+', encoding='cp1251') as one:
 #     for i in pdz_points_list:
 #         one.write('%s\n' %i)
 
-with open('%sexport.all' %config.korinf_map, 'a+', encoding='cp1251') as one:
+with open('%sexport.all' %config.korinf_files, 'a+', encoding='cp1251') as one:
     one.write(points_info)
 
-with open('%sexport.all' % config.korinf_map, 'a+', encoding='cp1251') as one:
+with open('%sexport.all' % config.korinf_files, 'a+', encoding='cp1251') as one:
     for i in list_points:
         one.write('%s\n' %i)
 
-with open('%sexport.all' % config.korinf_map, 'a+', encoding='cp1251') as one:
+with open('%sexport.all' % config.korinf_files, 'a+', encoding='cp1251') as one:
     for i in all_points_add:
         one.write('%s\n' %i)
 
@@ -427,7 +427,7 @@ def get_pdz_coords(lst):
 pod_coords = list(get_pod_coords(inside_points))
 # pdz_coords = list(get_pod_coords(pdz_points))
 
-with open('%sexport.all' % config.korinf_map, 'a+', encoding='cp1251') as one:
+with open('%sexport.all' % config.korinf_files, 'a+', encoding='cp1251') as one:
     for i in pod_coords:
         one.write('%s\n' %i)
 
@@ -437,31 +437,31 @@ with open('%sexport.all' % config.korinf_map, 'a+', encoding='cp1251') as one:
 #     for i in pdz_coords:
 #         one.write('%s\n' %i)
 
-RZ_points = open('%ssample_RZ_points.txt' %config.sample_korinf, 'r')
+RZ_points = open('%ssamples/sample_RZ_points.txt' %config.program_files, 'r')
 RZ_points = RZ_points.readlines()
 
-with open('%sexport.all' %config.korinf_map, 'a+', encoding='cp1251') as one:
+with open('%sexport.all' %config.korinf_files, 'a+', encoding='cp1251') as one:
     for i in RZ_points:
         one.write(i)
 
-aero_points = open('%ssample_aero_points.txt' %config.sample_korinf, 'r')
+aero_points = open('%ssamples/sample_aero_points.txt' %config.program_files, 'r')
 aero_points = aero_points.readlines()
 
-with open('%sexport.all' %config.korinf_map, 'a+', encoding='cp1251') as one:
+with open('%sexport.all' %config.korinf_files, 'a+', encoding='cp1251') as one:
     for i in aero_points:
         one.write(i)
 
-VC_points = open('%ssample_VC_points.txt' %config.sample_korinf, 'r')
+VC_points = open('%ssamples/sample_VC_points.txt' %config.program_files, 'r')
 VC_points = VC_points.readlines()
 
-with open('%sexport.all' %config.korinf_map, 'a+', encoding='cp1251') as one:
+with open('%sexport.all' %config.korinf_files, 'a+', encoding='cp1251') as one:
     for i in VC_points:
         one.write(i)
 
-routes_points = open('%ssample_routes_points.txt' %config.sample_korinf, 'r')
+routes_points = open('%ssamples/sample_routes_points.txt' %config.program_files, 'r')
 routes_points = routes_points.readlines()
 
-with open('%sexport.all' %config.korinf_map, 'a+', encoding='cp1251') as one:
+with open('%sexport.all' %config.korinf_files, 'a+', encoding='cp1251') as one:
     for i in routes_points:
         one.write(i)
 
