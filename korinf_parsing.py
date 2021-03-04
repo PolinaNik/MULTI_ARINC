@@ -84,7 +84,7 @@ more2 = list(modules.count_list(filtred_routes))
 more2 = list(chain.from_iterable(more2))
 
 lenght1 = len(int_)
-lenght2 = len(more2)
+lenght2 = len(filtred_routes)
 print('Найдено %s трасс в документе ARINC, только %s находятся в зоне ответсвенности' % (lenght1, lenght2))
 
 def counter_of_points(routes):
