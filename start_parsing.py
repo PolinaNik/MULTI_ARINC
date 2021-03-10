@@ -9,6 +9,7 @@ root = Tk()
 
 root.title("Multifunctional ARINC Parsing")
 root.geometry('400x280')
+root.iconphoto(False, PhotoImage(file='%sicon_multi_arinc.png' % config.program_files))
 
 def run1():
     win = Toplevel()
