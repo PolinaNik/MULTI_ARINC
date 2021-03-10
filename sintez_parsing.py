@@ -183,16 +183,20 @@ length = len(points_names_from_base)
 logging.warning('Найдено %s точек в базе данных' % length)
 print('Найдено %s точек в базе данных' % length)
 
-#Отбор точек на кириллице и на латинице из базы данных
+#Отбор точек на кириллице из базы данных
 def has_cyrillic(text):
     return bool(re.search('[а-яА-Я]', text))
+
+#Отбор точек на на латинице из базы данных
+def has_latin(text):
+    return bool(re.search('[A-Z]', text))
 
 rus_points_from_base = []
 eng_points_from_base = []
 for x in points_names_from_base:
     if has_cyrillic(x) is True:
         rus_points_from_base.append(x)
-    if has_cyrillic(x) is False:
+    if has_latin(x) is True:
         eng_points_from_base.append(x)
 
 
