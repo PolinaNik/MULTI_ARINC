@@ -1,19 +1,19 @@
 """Конфигурационный файл"""
 
 #Адрес папки со всеми программными файлами
-program_files = 'C:/Users/Полина/Desktop/MULTI_ARINC/program_files/'
+program_files = '/home/polina/Desktop/MULTI_ARINC/program_files/'
 
 #Адресс папки с файлами для парсинга
 arinc_files = '/home/polina/Desktop/MULTI_ARINC/Файлы_для_парсинга/'
 
 #Адрес папки для СИНТЕЗА
-sintez_files = 'C:/Users/Полина/Desktop/MULTI_ARINC/СИНТЕЗ/'
+sintez_files = '/home/polina/Desktop/MULTI_ARINC/СИНТЕЗ/'
 
 #Адрес папки для КОРИНФ
-korinf_files = 'C:/Users/Полина/Desktop/MULTI_ARINC/КОРИНФ/'
+korinf_files = '/home/polina/Desktop/MULTI_ARINC/КОРИНФ/'
 
 #Адрес папки для ОРЛ-А
-orl_files = 'C:/Users/Полина/Desktop/MULTI_ARINC/ОРЛ_А/'
+orl_files = '/home/polina/Desktop/MULTI_ARINC/ОРЛ_А/'
 
 import math
 from shapely.geometry import Point
