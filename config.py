@@ -4,7 +4,7 @@
 program_files = 'C:/Users/Полина/Desktop/MULTI_ARINC/program_files/'
 
 #Адресс папки с файлами для парсинга
-arinc_files = 'C:/Users/Полина/Desktop/MULTI_ARINC/Файлы для парсинга/'
+arinc_files = '/home/polina/Desktop/MULTI_ARINC/Файлы_для_парсинга/'
 
 #Адрес папки для СИНТЕЗА
 sintez_files = 'C:/Users/Полина/Desktop/MULTI_ARINC/СИНТЕЗ/'

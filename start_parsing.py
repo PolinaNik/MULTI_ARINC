@@ -15,7 +15,7 @@ def run1():
     win.wm_title("Инструкция")
     text = scrolledtext.ScrolledText(win)
     text.pack(expand=True, fill='both')
-    with open('%s' % config.guide, 'r', encoding='utf-8') as log:
+    with open('%sИнструкция.txt' % config.program_files, 'r', encoding='utf-8') as log:
         file_log = log.readlines()
         text.delete(1.0, END)
         for element in file_log:

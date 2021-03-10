@@ -19,7 +19,7 @@ root = Tk()
 root.withdraw()
 
 root.title("Проверка ARINC")
-root.filename = filedialog.askopenfilename(initialdir="/", title="ВЫБЕРИТЕ ARINC для международных трасс")
+root.filename = filedialog.askopenfilename(initialdir="%s" % config.arinc_files, title="ВЫБЕРИТЕ ARINC для международных трасс")
 begin_time = datetime.datetime.today()
 
 
